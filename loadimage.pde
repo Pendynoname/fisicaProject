@@ -35,6 +35,36 @@ void loadLava() {
   }
 }
 
+
+PImage slime[], zombie[][], skeleton[][], arrow[];
+void loadEnermie() {
+  slime = new PImage[4];
+  for (int i = 0; i < 4; i++) {
+    slime[i] = Load("https://minecraftfaces.com/wp-content/bigfaces/big-slime-face.png");
+    slime[i].resize(16*(i+1), 16*(i+1));
+  }
+  zombie = new PImage[2][2];
+  zombie[1][1] = Load("https://minecraft.wiki/images/Zombie_Targeting.png?a66fd");
+  zombie[1][0] = reverseImage(zombie[1][1]);
+  zombie[0][1] = Load("https://minecraft.wiki/images/Zombie_JE3_BE2.png?20ae3");
+  zombie[0][0] = reverseImage(zombie[0][1]);
+  skeleton = new  PImage[2][2];
+  skeleton[1][1] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/b6/Skeleton_Aiming_JE2_BE3.png/revision/latest?cb=20191103010055");
+  skeleton[1][0] = reverseImage(skeleton[1][1]);
+  skeleton[0][1] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/47/Skeleton_JE6_BE4.png/revision/latest?cb=20210227130136");
+  skeleton[0][0] = reverseImage(skeleton[0][1]);
+  for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 2; j++) {
+      zombie[i][j].resize(24, 48);
+      skeleton[i][j].resize(24, 48);
+    }
+  }
+  arrow = new PImage[2];
+  arrow[0] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/58/Arrow_JE2_BE1.png/revision/latest?cb=20200105214407");
+  arrow[0].resize(12,4);
+  arrow[1] = reverseImage(arrow[0]);
+}
+
 PImage Load(String url) {
   PImage img = loadImage(url, "png");
   if (img != null) {
@@ -52,7 +82,7 @@ PImage Loadgif(String url) {
   return img;
 }
 PImage dirt, sand, rock, grass, cobble, coal_ore, iron_ore, diamond_ore, oak_log, oak_plank, crafting_table, furnace[], chest, leaf, cactus, dripleaf[];
-PImage pickAxe, sword, shovel, axe;
+PImage[] pickAxe, sword, shovel, axe;
 
 HashMap<String, Integer> id1;
 HashMap<Integer, String> id2;
@@ -96,7 +126,7 @@ void loadBlock() {
   id2.put(15, "dripleaf");
   id2.put(1000, "lava");
   id2.put(2000, "water");
-  
+
   dirt = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3d/Dirt_%28texture%29_JE2_BE2.png/revision/latest?cb=20200919012354");
   sand = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c8/Sand_%28texture%29_JE5_BE3.png/revision/latest?cb=20201001140257");
   grass = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3b/Grass_Block_%28side_texture%29_JE2_BE2.png/revision/latest?cb=20200921204925");
@@ -109,8 +139,8 @@ void loadBlock() {
   oak_plank = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/e6/Oak_Planks_%28texture%29_JE6_BE3.png/revision/latest?cb=20201001140156");
   crafting_table = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3c/Crafting_Table_%28front_texture%29_JE4.png/revision/latest?cb=20201001121026");
   furnace = new PImage[2];
-    furnace[0] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/9a/Off_Furnace_%28front_texture%29_JE2_BE2.png/revision/latest?cb=20210206133200");
-    furnace[1] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/28/On_Furnace_%28front_texture%29_JE2_BE2.png/revision/latest?cb=20210206133246");
+  furnace[0] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/9a/Off_Furnace_%28front_texture%29_JE2_BE2.png/revision/latest?cb=20210206133200");
+  furnace[1] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/28/On_Furnace_%28front_texture%29_JE2_BE2.png/revision/latest?cb=20210206133246");
   chest = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/08/Chest_%28front_texture%29_JE1_BE1.png/revision/latest?cb=20200918195049");
   leaf = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c9/Azalea_Leaves_%28texture%29_JE1.png/revision/latest?cb=20210203194232");
   cactus = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/fb/Cactus_%28side_texture%29_JE4_BE2.png/revision/latest?cb=20200922000526");
@@ -118,10 +148,18 @@ void loadBlock() {
   dripleaf[0] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/bd/Big_Dripleaf_%28stem_texture%29_JE1.png/revision/latest?cb=20210203192737");
   dripleaf[1] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/55/Big_Dripleaf_%28tip_texture%29_JE1.png/revision/latest?cb=20210203193258");
   dripleaf[2] = Load("https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3c/Big_Dripleaf_%28top_texture%29_JE1.png/revision/latest?cb=20210203193139");
-  pickAxe = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/fd/Enchanted_Iron_Pickaxe.gif/revision/latest?cb=20201118221334");
-  sword = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/de/Enchanted_Iron_Sword.gif/revision/latest?cb=20201118221344");
-  axe = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/bf/Enchanted_Iron_Axe.gif/revision/latest?cb=20201118111848");
-  shovel = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/af/Enchanted_Iron_Shovel.gif/revision/latest?cb=20201118221338");
+  pickAxe = new PImage[2];
+  sword = new PImage[2];
+  axe = new PImage[2];
+  shovel = new PImage[2];
+  pickAxe[0] = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/fd/Enchanted_Iron_Pickaxe.gif/revision/latest?cb=20201118221334");
+  sword[0] = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/de/Enchanted_Iron_Sword.gif/revision/latest?cb=20201118221344");
+  axe[0] = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/bf/Enchanted_Iron_Axe.gif/revision/latest?cb=20201118111848");
+  shovel[0] = Loadgif("https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/af/Enchanted_Iron_Shovel.gif/revision/latest?cb=20201118221338");
+  pickAxe[1] = reverseImage(pickAxe[0]);
+  sword[1] = reverseImage(sword[0]);
+  axe[1] = reverseImage(axe[0]);
+  shovel[1] = reverseImage(shovel[0]);
   id3 = new HashMap<Integer, PImage>();
   id3.put(0, dirt);
   id3.put(1, sand);
@@ -139,8 +177,15 @@ void loadBlock() {
   id3.put(13, leaf);
   id3.put(14, cactus);
   id3.put(15, dripleaf[0]);
-  id3.put(16, pickAxe);
-  id3.put(17, sword);
-  id3.put(18, axe);
-  id3.put(19, shovel);
+  id3.put(16, pickAxe[0]);
+  id3.put(17, sword[0]);
+  id3.put(18, axe[0]);
+  id3.put(19, shovel[0]);
+}
+
+void load_direction() {
+  id3.put(16, pickAxe[PlayerDirection ? 0 : 1]);
+  id3.put(17, sword[PlayerDirection ? 0 : 1]);
+  id3.put(18, axe[PlayerDirection ? 0 : 1]);
+  id3.put(19, shovel[PlayerDirection ? 0 : 1]);
 }

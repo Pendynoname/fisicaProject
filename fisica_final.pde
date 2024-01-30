@@ -3,6 +3,13 @@ import java.util.*;
 
 PImage lava[][][];
 
+final int home = 0;
+final int load = 1;
+final int game = 2;
+final int over = 3;
+int mode = 0;
+
+
 color background = #00F6FC;
 FWorld world;
 void setup() {
@@ -10,12 +17,10 @@ void setup() {
   Fisica.init(this);
   size(2560, 1600, P2D);
   loaded = new HashMap<Integer, ArrayList<ArrayList<FBody>>>();
+  life = new ArrayList<Enermies>();
   loadLava();
   loadBlock();
-  soft_generate(0);
-  hard_generate(0);
-  soft_generate(-1);
-  soft_generate(1);
+  loadEnermie();
   LoadPlayer();
   loadChunk(0);
   mouseSetup();
@@ -29,43 +34,16 @@ void setup() {
 float scaler = 1.5;
 int cnt = 0;
 void draw() {
-  background(background);
-  pushMatrix();
-  scale(scaler);
-  mousePosition.setPosition(-(width/(2*scaler) - Player.getX()) + map(mouseX, 0, width, 0, width/scaler) + 8, map(mouseY, 0, height, 0, height/scaler)-(height/(2*scaler) - Player.getY()) + 8);
-  translate((width/(2*scaler) - Player.getX()), (height/(2*scaler) - Player.getY()));
-  Pair mouseP = getCord(mousePosition);
-  //loadLava();
-  calculate();
-  handlePlayerInput();
-  //println(st.size());
-
-  Pair p = getCord(Player);
-  for (int i = 0; i < 120; i++) {
-    for (int j = 0; j < 100; j++) {
-      FBody ini = get_Block(p.first - 60 + i, j);
-      if (ini == null) {
-        continue;
-      }
-      if (ini instanceof GameObject) {
-        ((GameObject)(ini)).paint();
-        ((GameObject)(ini)).act();
-      }
-      if (ini instanceof Liquid) {
-        ((Liquid)(ini)).paint();
-      }
-    }
+  if(mode == 0){
+    home();
   }
-  if(currentitem > 15){
-    pushMatrix();
-    image(id3.get(currentitem), Player.getX() + (PlayerDirection ? 2 : -16), Player.getY() - 12);
-    popMatrix();
+  if(mode == 1){
+    load();
   }
-  world.draw();
-  world.step();
-  if(currentitem < 16)
-    image(id3.get(currentitem), 16*mouseP.first, 16*mouseP.second, 16, 16);
-  popMatrix();
-  drawInventory();
-  text(frameRate, 50, 50);
+  if(mode == 2){
+    game();
+  }
+  if(mode == 3){
+    over();
+  }
 }

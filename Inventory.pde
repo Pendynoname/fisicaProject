@@ -22,5 +22,12 @@ void drawInventory(){
       text(Mapping[i - 10], 100 + 80 * i, 72);
     }
   }
+  
+  strokeWeight(4);
+  fill(60,100);
+  rect(1700, 5, 560, 75); 
+  fill(255, 0, 0);
+  rect(1705, 7, map(playerLife, 0, 20, 0, 550), 73);
+  
   popMatrix();
 }

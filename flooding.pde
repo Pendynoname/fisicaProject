@@ -6,6 +6,7 @@ class Liquid extends FBox {
   int tick;
   Liquid(boolean s, int l, int d, int xx, int yy) {
     super(16, 16);
+    setName("liquid");
     setStatic(true);
     setGrabbable(false);
     setNoFill();
